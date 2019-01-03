@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Web Component Test Page</title>
+  <!-- Global Clarity style sheets -->
+  <link rel="stylesheet" href="./node_modules/@clr/ui/clr-ui.min.css" />
+  <link rel="stylesheet" href="./node_modules/@clr/icons/clr-icons.min.css">
+<body>
+
+  <!-- 1. Load all peer dependencies of the web-component... -->
+
+  <!--Clarity Icons API and all icon sets-->
+  <script src="./node_modules/@clr/icons/clr-icons.min.js"></script>  
+  <!-- core-js for legacy browsers -->
+  <script src="./node_modules/core-js/client/core.js"></script>
+  <!-- Zone.js -->
+  <!-- 
+      Consider excluding zone.js when creating
+      custom Elements by using the noop zone.
+  -->
+  <script src="./node_modules/zone.js/dist/zone.js"></script>
+  <!-- Polyfills for Browsers supporting 
+          Custom Elements. Needed b/c we downlevel
+          to ES5. See: @webcomponents/custom-elements
+  -->
+  <script src="./node_modules/@webcomponents/custom-elements/src/native-shim.js"></script>
+  <!-- Polyfills for Browsers not supporting
+          Custom Elements. See: @webcomponents/custom-elements
+  -->
+  <script src="./node_modules/@webcomponents/custom-elements/custom-elements.min.js"></script>
+  <!-- Rx -->
+  <script src="./node_modules/rxjs/bundles/rxjs.umd.js"></script>
+  <!-- Angular Packages -->
+  <script src="./node_modules/@angular/core/bundles/core.umd.js"></script>
+  <script src="./node_modules/@angular/common/bundles/common.umd.js"></script>
+  <script src="./node_modules/@angular/platform-browser/bundles/platform-browser.umd.js"></script>
+  <script src="./node_modules/@angular/elements/bundles/elements.umd.js"></script>
+
+
+  <!-- 2. This is the actual webcomponent. Load this last after all dependencies loaded -->
+  <script src="./dist/clarity-webcomponent-starter/main.js"></script>
+
+  <!-- This is a usage of the web-component -->
+  <vmw-datagrid greeting="Hello World"></vmw-datagrid>
+
+  <script>
+    const users = [
+        {
+            id: 1,
+            name: 'Matt',
+            creation: Date.now(),
+            color: 'Orange'
+        },
+        {
+            id: 2,
+            name: 'Etienne',
+            creation: Date.now(),
+            color: 'Green'
+        }    
+    ];
+
+    // Grabbing a handle to the web-component object (this is of type DatagridComponent)
+    const grid = document.querySelector('vmw-datagrid');
+
+    // Setting a web-component property. Note, although there is an equivalent 'users'
+    // attribute, we do not attempt to pass complex objects via attributes.
+    grid.users = users;
+
+    // Listening to a web-component custom event.
+    grid.addEventListener('select', (event) => {
+      console.log(`Grid selection changed: ${event.detail}`);
+    })
+  </script>
+</body>
+
+</html>

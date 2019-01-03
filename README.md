@@ -1,27 +1,57 @@
 # ClarityWebcomponentStarter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
+The purpose of this project is to serve as a starting point for [Angular](https://angular.io/) [Clarity](https://vmware.github.io/clarity/) applications wishing to export components as [Web Components](https://developers.google.com/web/fundamentals/web-components/) using the new [Angular Elements API](https://angular.io/guide/elements).
 
-## Development server
+The goal of the exported components is that they should be able to be used along side any number of other web components (that may or may not have used this starter) in a web app of any flavor using any tech stack.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Implementation
 
-## Code scaffolding
+There are a few technical barriers in the way of acheiving the above goal that currently require work-arounds which will be explained in this section.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Firstly, Angular currently does not like to be loaded twice, so if you naively try to load two web components built using Angular Elements, you will run into this bug: https://github.com/angular/angular/issues/23732
 
-## Build
+Secondly, the Angular library itself is currently not very [tree shakable](https://webpack.js.org/guides/tree-shaking/), leading to very large exported bundle sizes. Once ready, the new Angular [Ivy](https://blog.angularindepth.com/inside-ivy-exploring-the-new-angular-compiler-ebf85141cee1) compiler and renderer will solve this problem.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+For now, to work around both of these issues we use the [ngx-build-plus](https://github.com/manfredsteyer/ngx-build-plus#advanced-example-externals-and-angular-elements) build tool to _externalize_ the Angular library itself and also Angular's dependencies, making them the responsibility of the consuming app. Clearly, this results in web components that leak abstractions, which is not a good thing. Web components should be fully encapsulated and should not require users to have knowledge of their internals or manually manage dependencies on their behalf. However, this is a functionaing work around that can be used while we wait for Ivy, allowing us to get used to the web component pattern and work flows in the meantime.
 
-## Running unit tests
+In practice, what "externalizing the dependencies" actually means is listing them as npm [peer dependencies](https://nodejs.org/en/blog/npm/peer-dependencies/) of this project. A user of your web component will then be warned at npm install time that they must also load the dependent libraries. More on that in the [usage section](#Usage) below.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Lastly, Clarity components are built with reference to a global style sheet, instead of using [Shadow DOM](https://developers.google.com/web/fundamentals/web-components/shadowdom). This means that the clarity style sheets are also _externalized_ and must be loaded as global style sheets by the consuming app. Again, see [usage](#Usage) below. This work around will need to remain in place until Clarity moves to using native encapsulation of styles.
 
-## Running end-to-end tests
+## Development
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+This starter exports a very minimally wrapped Clarity [Datagrid](https://vmware.github.io/clarity/documentation/v1.0/datagrid/structure) as a `vmw-datagrid` web component. The source is heavily commented throughout, so check it out.
 
-## Further help
+While hacking on the component, toggle the commented code lines in `app.module.ts` which will let you test and develop using the rapid `npm start` Angular dev server.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+When you are ready to test the actual web-component, `npm run build` it. A sample web app to test it is provided in the root directory as `index.html`. Use the web server of your choice to load that up and test your web component.
+
+## Publishing
+
+After you have run `npm run build` to build your component you will want to [publish it]((https://docs.npmjs.com/cli/publish)) to npm in order for it to be consumed by other web apps.
+
+Don't forget to delete all of the `app.component` files and adjust `app.module.ts` not to reference them before you build.
+
+Use `npm publish` to publish your web component, _after first modifying all relevant fields in `package.json`_.
+
+## Usage
+
+If you wish to use the demo web component exported by this module exactly as is, you can install it via
+
+`npm i @mcritch/clarity-webcomponent-starter`
+
+otherwise, `npm install` your web component from wherever you published it to. 
+
+At this time you will see warnings about the peer dependencies. The quickest way to resolve these is to directly copy the `peerDependencies` of this project to the `dependencies` section of your consuming app and then run `npm install` on that app again.
+
+Next, you will need to actually load the dependencies. Depending on the tech stack of your consuming app, there are several ways this can be done. For example, you could import the depencies as modules in a javascript file that loads before any other. Alternatively, you could load them using script tags in your `index.html`. An example of a vanilla JS app doing this is given in the `index.html` file in the root directory. An example of a [Vue.js](https://vuejs.org/) app consuming web components built using this project can be found here: https://github.com/vigie/vue-web-components
+
+After the dependencies are loaded, it is safe to load your web component and start using it in your app, interacting with it via the native web component API. As before, loading might be done via a javascript import, for example
+
+`import '@mcritch/clarity-webcomponent-starter';`
+
+or an index.html script tag, for example:
+
+`<script src="./dist/clarity-webcomponent-starter/main.js"></script>`
+
+ Again, see the final script tag in `index.html` or https://github.com/vigie/vue-web-components for an example.

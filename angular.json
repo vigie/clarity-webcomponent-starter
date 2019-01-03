@@ -11,7 +11,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:build",
           "options": {
             "outputPath": "dist/clarity-webcomponent-starter",
             "index": "src/index.html",
@@ -23,9 +23,20 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@clr/icons/clr-icons.min.css",
+              "node_modules/@clr/ui/clr-ui.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              },
+              "node_modules/@clr/icons/clr-icons.min.js",
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              }
+            ]
           },
           "configurations": {
             "production": {
@@ -55,7 +66,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "clarity-webcomponent-starter:build"
           },
