@@ -4,6 +4,7 @@ module.exports = {
         "@angular/core": "ng.core",
         "@angular/common": "ng.common",
         "@angular/platform-browser": "ng.platformBrowser",
-        "@angular/elements": "ng.elements"
+        "@angular/elements": "ng.elements",
+        "@clr/icons": "ClarityIcons"
     }
 }

@@ -1,31 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Injector } from '@angular/core';
+import { NgModule, Injector, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
+import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
 
 import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatagridComponent } from './datagrid/datagrid.component';
-import { AppComponent } from './app.component';
-
-// Note: toggle the commented lines during development so that you can use the 
-// rapid `npm start` Angular developement server.
 
 @NgModule({
   declarations: [
-    DatagridComponent,
-    AppComponent
+    DatagridComponent
   ],
   imports: [
     BrowserModule,
     ClarityModule,
     BrowserAnimationsModule
   ],
-  // bootstrap: [AppComponent],
-  entryComponents: [DatagridComponent]
+  entryComponents: [DatagridComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
   constructor(injector: Injector) {
-    const el = createCustomElement(DatagridComponent, { injector });
+    // https://github.com/angular/angular/issues/24577
+    const strategyFactory = new ElementZoneStrategyFactory(DatagridComponent, injector);
+    const el = createCustomElement(DatagridComponent, { injector, strategyFactory });
     customElements.define('vmw-datagrid', el);
   }
 
