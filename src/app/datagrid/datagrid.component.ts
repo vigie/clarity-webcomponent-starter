@@ -1,11 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 //Note: use of extra ng prefix in the selector to distinguish usages of the native Angular component
 // from the wrapped web component counterpart.
 @Component({
   selector: 'vmw-ng-datagrid',
   templateUrl: './datagrid.component.html',
-  styleUrls: ['./datagrid.component.css']
+  styleUrls: [
+    '../../../node_modules/@clr/icons/clr-icons.css',
+    '../../../node_modules/@clr/ui/clr-ui.css'
+  ],
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class DatagridComponent {
 
