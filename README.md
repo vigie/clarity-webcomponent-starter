@@ -20,17 +20,13 @@ Lastly, Clarity components are built with reference to a global style sheet, ins
 
 ## Development
 
-This starter exports a very minimally wrapped Clarity [Datagrid](https://vmware.github.io/clarity/documentation/v1.0/datagrid/structure) as a `vmw-datagrid` web component. The source is heavily commented throughout, so check it out.
+This starter exports an arbitrary UI built from [Clarity](https://vmware.github.io/clarity/documentation) components as a `vmw-micro-frontend` web component. The source is heavily commented throughout, so check it out.
 
-While hacking on the component, toggle the commented code lines in `app.module.ts` which will let you test and develop using the rapid `npm start` Angular dev server.
-
-When you are ready to test the actual web-component, `npm run build` it. A sample web app to test it is provided in the root directory as `index.html`. Use the web server of your choice to load that up and test your web component.
+When you are ready to test the actual web-component without relying on the Angular CLI, `npm run build` it. A sample web app to test it is provided in the root directory as `index.html`. Use the web server of your choice to load that up and test your web component.
 
 ## Publishing
 
 After you have run `npm run build` to build your component you will want to [publish it]((https://docs.npmjs.com/cli/publish)) to npm in order for it to be consumed by other web apps.
-
-Don't forget to delete all of the `app.component` files and adjust `app.module.ts` not to reference them before you build.
 
 Use `npm publish` to publish your web component, _after first modifying all relevant fields in `package.json`_.
 

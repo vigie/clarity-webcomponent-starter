@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DatagridComponent } from './datagrid.component';
+import { MicroFrontendComponent } from './micro-frontend.component';
 
-describe('DatagridComponent', () => {
-  let component: DatagridComponent;
-  let fixture: ComponentFixture<DatagridComponent>;
+describe('MicroFrontendComponent', () => {
+  let component: MicroFrontendComponent;
+  let fixture: ComponentFixture<MicroFrontendComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DatagridComponent ]
+      declarations: [ MicroFrontendComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DatagridComponent);
+    fixture = TestBed.createComponent(MicroFrontendComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

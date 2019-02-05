@@ -43,7 +43,7 @@
   <script src="./dist/clarity-webcomponent-starter/main.js"></script>
 
   <!-- This is a usage of the web-component -->
-  <vmw-datagrid greeting="Hello World"></vmw-datagrid>
+  <vmw-micro-frontend greeting="Hello World"></vmw-micro-frontend>
 
   <script>
     const users = [
@@ -61,8 +61,8 @@
         }    
     ];
 
-    // Grabbing a handle to the web-component object (this is of type DatagridComponent)
-    const grid = document.querySelector('vmw-datagrid');
+    // Grabbing a handle to the web-component object (this is of type MicroFrontendComponent)
+    const grid = document.querySelector('vmw-micro-frontend');
 
     // Setting a web-component property. Note, although there is an equivalent 'users'
     // attribute, we do not attempt to pass complex objects via attributes.

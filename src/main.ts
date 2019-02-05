@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { DatagridComponent } from './app/datagrid/datagrid.component';
+import { MicroFrontendComponent } from './app/micro-frontend/micro-frontend.component';
 
 if (environment.production) {
   try {
@@ -19,4 +19,4 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 
 // Note: web component class is exported so users have access to the types, API and docs when using
 // it in their app  
-export { DatagridComponent };
+export { MicroFrontendComponent };

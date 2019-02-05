@@ -3,15 +3,11 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 //Note: use of extra ng prefix in the selector to distinguish usages of the native Angular component
 // from the wrapped web component counterpart.
 @Component({
-  selector: 'vmw-ng-datagrid',
-  templateUrl: './datagrid.component.html',
-  styleUrls: [
-    '../../../node_modules/@clr/icons/clr-icons.css',
-    '../../../node_modules/@clr/ui/clr-ui.css'
-  ],
-  encapsulation: ViewEncapsulation.ShadowDom
+  selector: 'vmw-ng-micro-frontend',
+  templateUrl: './micro-frontend.component.html',
+  encapsulation: ViewEncapsulation.Emulated
 })
-export class DatagridComponent {
+export class MicroFrontendComponent {
 
   // Simple property users can safely interact with via the mirrored web-component attribute.
   @Input()
