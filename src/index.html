@@ -9,6 +9,15 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+  <input type="number" id="tabSelector"><button onclick="selectTab()">Select Tab Index</button>
   <vmw-micro-frontend>im host content</vmw-micro-frontend>
+
+  <script>
+    function selectTab() {
+      const tabIndex = document.querySelector('#tabSelector').value;
+      const mfe = document.querySelector('vmw-micro-frontend');
+      mfe.selectedTab = tabIndex;
+    }
+  </script>
 </body>
 </html>

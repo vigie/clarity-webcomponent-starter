@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, NgModuleFactoryLoader, Injector, ViewContainerRef, ViewChildren, QueryList } from '@angular/core';
 
 //Note: use of extra ng prefix in the selector to distinguish usages of the native Angular component
 // from the wrapped web component counterpart.
@@ -28,5 +28,28 @@ export class MicroFrontendComponent {
   // Angular elements translates this to a standard custom DOM event raised by the web component.
   @Output()
   select = new EventEmitter()
+
+  constructor(
+    private readonly loader: NgModuleFactoryLoader,
+    private readonly injector: Injector,  
+  ) {}
+
+  @ViewChildren('vcr', {read: ViewContainerRef}) vcr: QueryList<ViewContainerRef>;
+
+  ngAfterViewInit() {
+    this.vcr.changes.subscribe(change => {
+      const vcr = change.last;
+      if (!vcr) {
+        return;
+      }
+      this.loader.load('./lazy-module/lazy-module.module#LazyModuleModule')
+      .then(factory => {
+        const module = factory.create(this.injector);
+        var entryComponentType = module.injector.get('LAZY_ENTRY_COMPONENT')
+        var componentFactory = module.componentFactoryResolver.resolveComponentFactory(entryComponentType);
+        vcr.createComponent(componentFactory);
+      })       
+    })
+  }
 
 }

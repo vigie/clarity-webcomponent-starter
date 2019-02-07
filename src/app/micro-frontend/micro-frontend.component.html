@@ -1,17 +1,22 @@
 <h3>{{greeting}}</h3>
 <slot>Put your stuff here</slot>
-<clr-datagrid (clrDgSingleSelectedChange)="select.emit($event)" [clrDgSingleSelected]="selected">
-  <clr-dg-column>User ID</clr-dg-column>
-  <clr-dg-column>Name</clr-dg-column>
-  <clr-dg-column>Creation date</clr-dg-column>
-  <clr-dg-column>Favorite color</clr-dg-column>
 
-  <clr-dg-row *clrDgItems="let user of users" [clrDgItem]="user">
-      <clr-dg-cell>{{user.id}}</clr-dg-cell>
-      <clr-dg-cell>{{user.name}}</clr-dg-cell>
-      <clr-dg-cell>{{user.creation | date}}</clr-dg-cell>
-      <clr-dg-cell>{{user.color}}</clr-dg-cell>
-  </clr-dg-row>
-
-  <clr-dg-footer>{{users.length}} users</clr-dg-footer>
-</clr-datagrid>
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink routerLink="/datagrid">Datagrid</button>
+    <clr-tab-content *clrIfActive>
+      <router-outlet></router-outlet>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+      <button clrTabLink routerLink="/lazy">Lazy Route</button>
+      <clr-tab-content *clrIfActive>
+        <router-outlet></router-outlet>
+      </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+      <button clrTabLink>Lazy No Route</button>
+      <clr-tab-content *clrIfActive #vcr>
+      </clr-tab-content>
+  </clr-tab>
+</clr-tabs>

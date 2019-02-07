@@ -20,7 +20,9 @@ Lastly, Clarity components are built with reference to a global style sheet, ins
 
 ## Development
 
-This starter exports an arbitrary UI built from [Clarity](https://vmware.github.io/clarity/documentation) components as a `vmw-micro-frontend` web component. The source is heavily commented throughout, so check it out.
+This starter simulates exporting a complex pre-existing component, without needing to change it, by wrapping that component, redefining its API in the wrapper and shimming any dependencies the component has on global services.
+
+In this case the pre-existing component is the `micro-frontend.component` and it is wrapped by `wrapper.component`. The router service that `micro-frontend.component` uses is patched to make sure it never affects the browsers address bar, thereby keeping its routes internal. The `wrapper.component` exposes an API allowing the consuming application to programatically select its tabs, potentially linking them with the consuming apps router. The wrapped component continues to use both route and non-route based lazy loading internally.
 
 When you are ready to test the actual web-component without relying on the Angular CLI, `npm run build` it. A sample web app to test it is provided in the root directory as `index.html`. Use the web server of your choice to load that up and test your web component.
 
